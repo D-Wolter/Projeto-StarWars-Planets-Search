@@ -5,6 +5,7 @@ import fetchApiPlanets from '../services/serviceApi';
 
 function AppProvider({ children }) {
   const [data, setData] = useState([]);
+  const [filterForInput, setfilterForInput] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -13,9 +14,15 @@ function AppProvider({ children }) {
     })();
   }, []);
 
+  const handlefilterForInput = ({ target: { value } }) => {
+    setfilterForInput(value);
+  };
+
   const contextValue = useMemo(() => ({
     data,
-  }), [data]);
+    filterForInput,
+    handlefilterForInput,
+  }), [data, filterForInput]);
   return (
     <AppContext.Provider value={ contextValue }>
       { children }
