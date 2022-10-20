@@ -5,24 +5,35 @@ import fetchApiPlanets from '../services/serviceApi';
 
 function AppProvider({ children }) {
   const [data, setData] = useState([]);
-  const [filterForInput, setfilterForInput] = useState('');
+  const [inputName, setInputName] = useState('');
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('maior que');
+  const [number, setNumber] = useState(0);
 
   useEffect(() => {
     (async () => {
       const result = await fetchApiPlanets();
-      setData(result);
+      const newResult = result.filter((e) => e !== e.residents);
+      setData(newResult);
     })();
   }, []);
 
-  const handlefilterForInput = ({ target: { value } }) => {
-    setfilterForInput(value);
+  const handleInputName = ({ target: { value } }) => {
+    setInputName(value);
   };
 
   const contextValue = useMemo(() => ({
     data,
-    filterForInput,
-    handlefilterForInput,
-  }), [data, filterForInput]);
+    setData,
+    inputName,
+    handleInputName,
+    column,
+    setColumn,
+    comparison,
+    setComparison,
+    number,
+    setNumber,
+  }), [data, inputName, column, comparison, number]);
   return (
     <AppContext.Provider value={ contextValue }>
       { children }

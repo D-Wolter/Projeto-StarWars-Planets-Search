@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import AppContext from '../context/AppContext';
 
 function Table() {
-  const { data, filterForInput } = useContext(AppContext);
+  const { data, inputName } = useContext(AppContext);
 
   return (
     <table>
@@ -27,7 +27,7 @@ function Table() {
         {
           data.length > 0 && (
             data.filter((item) => item.name
-              .toLowerCase().includes(filterForInput
+              .toLowerCase().includes(inputName
                 .toLowerCase()))
               .map((item) => (
                 <tr key={ item.url }>
