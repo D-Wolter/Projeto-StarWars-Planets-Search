@@ -9,6 +9,7 @@ function AppProvider({ children }) {
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [number, setNumber] = useState(0);
+  const [filterResult, setFilterResult] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -33,7 +34,9 @@ function AppProvider({ children }) {
     setComparison,
     number,
     setNumber,
-  }), [data, inputName, column, comparison, number]);
+    filterResult,
+    setFilterResult,
+  }), [data, inputName, column, comparison, number, filterResult]);
   return (
     <AppContext.Provider value={ contextValue }>
       { children }

@@ -5,21 +5,31 @@ function InpuFilter() {
   const { data, setData, inputName, handleInputName,
     column, setColumn,
     comparison, setComparison,
-    number, setNumber } = useContext(AppContext);
+    number, setNumber,
+    setFilterResult,
+  } = useContext(AppContext);
+
+  const addFilterResult = (coluna, compara, valor) => {
+    setFilterResult((prev) => ([...prev, {
+      coluna,
+      compara,
+      valor,
+    }]));
+  };
 
   const handleSetFilter = () => {
     if (comparison.includes('maior que')) {
       const filtrado = data.filter((e) => Number(e[column]) > Number(number));
       setData(filtrado);
-      console.log(filtrado);
+      addFilterResult(column, 'maior que', number);
     } else if (comparison.includes('menor que')) {
       const filtrado = data.filter((e) => Number(e[column]) < Number(number));
       setData(filtrado);
-      console.log(filtrado);
+      addFilterResult(column, 'menor que', number);
     } else if (comparison.includes('igual a')) {
       const filtrado = data.filter((e) => Number(e[column]) === Number(number));
       setData(filtrado);
-      console.log(filtrado);
+      addFilterResult(column, 'igual a', number);
     }
   };
   return (
