@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import AppContext from '../context/AppContext';
 
 function Table() {
-  const { data, inputName, filterResult } = useContext(AppContext);
+  const { dataFiltred, inputName, filterResult, titleColumns } = useContext(AppContext);
   return (
     <div>
       <section>
@@ -16,25 +16,15 @@ function Table() {
       <table>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Rotation Period</th>
-            <th>Orbital Period</th>
-            <th>Diameter</th>
-            <th>Climate</th>
-            <th>Gravity</th>
-            <th>Terrain</th>
-            <th>Surface Water</th>
-            <th>Population</th>
-            <th>Films</th>
-            <th>Created</th>
-            <th>Edited</th>
-            <th>Url</th>
+            { titleColumns.map((i) => (
+              <th key={ i }>{i}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
           {
-            data.length > 0 && (
-              data.filter((item) => item.name
+            dataFiltred.length > 0 && (
+              dataFiltred.filter((item) => item.name
                 .toLowerCase().includes(inputName
                   .toLowerCase()))
                 .map((item) => (

@@ -2,14 +2,18 @@ import React, { useContext } from 'react';
 import AppContext from '../context/AppContext';
 
 function InpuFilter() {
-  const { data, setData, inputName, handleInputName,
+  const { inputName, handleInputName,
     column, setColumn,
     comparison, setComparison,
     number, setNumber,
     setFilterResult,
+    dropdownFilters, setDropdownFilters,
+    HandleSetFilter,
   } = useContext(AppContext);
 
   const addFilterResult = (coluna, compara, valor) => {
+    const newDropdownList = dropdownFilters.filter((e) => e !== column);
+    setDropdownFilters(newDropdownList);
     setFilterResult((prev) => ([...prev, {
       coluna,
       compara,
@@ -17,20 +21,9 @@ function InpuFilter() {
     }]));
   };
 
-  const handleSetFilter = () => {
-    if (comparison.includes('maior que')) {
-      const filtrado = data.filter((e) => Number(e[column]) > Number(number));
-      setData(filtrado);
-      addFilterResult(column, 'maior que', number);
-    } else if (comparison.includes('menor que')) {
-      const filtrado = data.filter((e) => Number(e[column]) < Number(number));
-      setData(filtrado);
-      addFilterResult(column, 'menor que', number);
-    } else if (comparison.includes('igual a')) {
-      const filtrado = data.filter((e) => Number(e[column]) === Number(number));
-      setData(filtrado);
-      addFilterResult(column, 'igual a', number);
-    }
+  const handleSetFilterValue = () => {
+    addFilterResult(column, comparison, number);
+    HandleSetFilter(column, comparison, number);
   };
   return (
     <form>
@@ -57,11 +50,9 @@ function InpuFilter() {
             data-testid="column-filter"
             onChange={ ({ target }) => setColumn(target.value) }
           >
-            <option value="population">population</option>
-            <option value="orbital_period">orbital_period</option>
-            <option value="diameter">diameter</option>
-            <option value="rotation_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+            { dropdownFilters?.map((item) => (
+              <option key={ item } value={ item }>{item}</option>
+            )) }
           </select>
         </label>
         <label htmlFor="comparison">
@@ -89,7 +80,7 @@ function InpuFilter() {
         <button
           data-testid="button-filter"
           type="button"
-          onClick={ handleSetFilter }
+          onClick={ handleSetFilterValue }
         >
           Filtrar
         </button>
