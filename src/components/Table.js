@@ -2,16 +2,32 @@ import React, { useContext } from 'react';
 import AppContext from '../context/AppContext';
 
 function Table() {
-  const { dataFiltred, inputName, filterResult, titleColumns } = useContext(AppContext);
+  const { dataFiltred, inputName, filterResult,
+    titleColumns, setFilterResult, ResetList } = useContext(AppContext);
+
+  const deleteFilter = (col) => {
+    const newFilterList = filterResult.filter((i) => i.coluna !== col);
+    setFilterResult(newFilterList);
+    ResetList(col);
+  };
   return (
     <div>
       <section>
         <h3>filtros Ativos</h3>
-        <ul>
-          { filterResult?.map((res, index) => (
-            <li key={ index }>{`${res.coluna} ${res.compara} ${res.valor}`}</li>
-          )) }
-        </ul>
+        { filterResult.map((fil, index) => (
+          <div key={ index }>
+            <h3>{`${fil.coluna} ${fil.compara} ${fil.valor}`}</h3>
+            <div data-testid="filter">
+              <span>Remover o filtro: </span>
+              <button
+                type="button"
+                onClick={ () => deleteFilter(fil.coluna) }
+              >
+                X
+              </button>
+            </div>
+          </div>
+        )) }
       </section>
       <table>
         <thead>

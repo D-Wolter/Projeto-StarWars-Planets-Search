@@ -9,6 +9,8 @@ function InpuFilter() {
     setFilterResult,
     dropdownFilters, setDropdownFilters,
     HandleSetFilter,
+    dataFiltred,
+    setDataFiltred,
   } = useContext(AppContext);
 
   const addFilterResult = (coluna, compara, valor) => {
@@ -19,6 +21,8 @@ function InpuFilter() {
       compara,
       valor,
     }]));
+    const list = dataFiltred.map((i) => i);
+    setDataFiltred(list);
   };
 
   const handleSetFilterValue = () => {
