@@ -71,7 +71,7 @@ function AppProvider({ children }) {
     setRenderFilter(true);
     const atualizaDropDown = dropdownList?.filter((item) => item === column);
     setDropdownList((prev) => [...prev, ...atualizaDropDown]);
-  }, [dropdownList, filtersList, data]);
+  }, [dropdownList, filtersList, data, column]);
 
   const adicionarFiltro = useCallback(() => {
     setFiltersList((prevFilters) => [
