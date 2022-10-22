@@ -98,7 +98,7 @@ function AppProvider({ children }) {
     removefilter,
   }), [inputName, column, comparison, number,
     filtersList, dropdownList, titles, copyData,
-    removefilter]);
+    removefilter, adicionarFiltro]);
   return (
     <AppContext.Provider value={ contextValue }>
       { children }
