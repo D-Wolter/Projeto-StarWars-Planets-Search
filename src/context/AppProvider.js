@@ -69,16 +69,23 @@ function AppProvider({ children }) {
     }
     setCopyData(data);
     setRenderFilter(true);
-  }, [filtersList, data]);
+    const atualizaDropDown = dropdownList?.filter((item) => item === column);
+    setDropdownList((prev) => [...prev, ...atualizaDropDown]);
+  }, [dropdownList, filtersList, data]);
 
   const adicionarFiltro = useCallback(() => {
-    setFiltersList((prev) => ([...prev, {
-      userColumn: column,
-      userCompare: comparison,
-      userNumber: number,
-    }]));
+    setFiltersList((prevFilters) => [
+      ...prevFilters,
+      {
+        userColumn: column,
+        userCompare: comparison,
+        userNumber: number,
+      },
+    ]);
     setColumn(dropdownList[0]);
     setRenderFilter(true);
+    const newDropdownList = dropdownList?.filter((e) => e !== column);
+    setDropdownList(newDropdownList);
   }, [dropdownList, number, comparison, column]);
 
   const contextValue = useMemo(() => ({
