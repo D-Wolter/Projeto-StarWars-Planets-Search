@@ -22,10 +22,10 @@ function AppProvider({ children }) {
     (async () => {
       const result = await fetchApiPlanets();
       const newResult = result.filter((e) => e !== e.residents);
-      const titulos = Object.keys(result[0]);
-      setTitles(titulos);
       setData(newResult);
       setCopyData(newResult);
+      const titulos = Object.keys(result[0]);
+      setTitles(titulos);
     })();
   }, []);
 
@@ -72,8 +72,8 @@ function AppProvider({ children }) {
   }, [dropdownList, filtersList, data, column]);
 
   const adicionarFiltro = useCallback(() => {
-    setFiltersList((prevFilters) => [
-      ...prevFilters,
+    setFiltersList((prevState) => [
+      ...prevState,
       {
         userColumn: column,
         userCompare: comparison,

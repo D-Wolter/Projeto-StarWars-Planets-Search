@@ -15,7 +15,7 @@ function Table() {
               <span>Remover o filtro: </span>
               <button
                 type="button"
-                onClick={ () => removefilter(fil, true) }
+                onClick={ () => removefilter(fil, false) }
               >
                 X
               </button>
@@ -51,25 +51,6 @@ function Table() {
                 .toLowerCase().includes(inputName
                   .toLowerCase()))
                 .map((item) => (
-                  // <tr key={ item.name }>
-                  //   <td>
-                  //     {
-                  //       item.name
-                  //     }
-                  //   </td>
-                  //   <td>{ item.rotation_period }</td>
-                  //   <td>{ item.orbital_period }</td>
-                  //   <td>{ item.diameter }</td>
-                  //   <td>{ item.climate }</td>
-                  //   <td>{ item.gravity }</td>
-                  //   <td>{ item.terrain }</td>
-                  //   <td>{ item.surface_water }</td>
-                  //   <td>{ item.population }</td>
-                  //   <td>{ item.films[0] }</td>
-                  //   <td>{ item.created }</td>
-                  //   <td>{ item.edited }</td>
-                  //   <td>{ item.url }</td>
-                  // </tr>
                   <tr key={ item.name }>
                     <td>
                       { item.name }
