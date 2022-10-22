@@ -2,19 +2,13 @@ import React, { useContext } from 'react';
 import AppContext from '../context/AppContext';
 
 function Table() {
-  const { dataFiltred, inputName, filterResult,
-    titleColumns, setFilterResult, ResetList } = useContext(AppContext);
-
-  const deleteFilter = (col) => {
-    const newFilterList = filterResult.filter((i) => i.coluna !== col);
-    setFilterResult(newFilterList);
-    ResetList(col);
-  };
+  const { copyData, inputName, filtersList,
+    titleColumns, deleteFilter } = useContext(AppContext);
   return (
     <div>
       <section>
         <h3>filtros Ativos</h3>
-        { filterResult.map((fil, index) => (
+        { filtersList.map((fil, index) => (
           <div key={ index }>
             <h3>{`${fil.coluna} ${fil.compara} ${fil.valor}`}</h3>
             <div data-testid="filter">
@@ -39,8 +33,8 @@ function Table() {
         </thead>
         <tbody>
           {
-            dataFiltred.length > 0 && (
-              dataFiltred.filter((item) => item.name
+            copyData.length > 0 && (
+              copyData.filter((item) => item.name
                 .toLowerCase().includes(inputName
                   .toLowerCase()))
                 .map((item) => (

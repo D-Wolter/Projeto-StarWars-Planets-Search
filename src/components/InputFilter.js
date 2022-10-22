@@ -6,29 +6,9 @@ function InpuFilter() {
     column, setColumn,
     comparison, setComparison,
     number, setNumber,
-    setFilterResult,
-    dropdownFilters, setDropdownFilters,
-    HandleSetFilter,
-    dataFiltred,
-    setDataFiltred,
+    adicionarFiltro,
+    copydropdownList,
   } = useContext(AppContext);
-
-  const addFilterResult = (coluna, compara, valor) => {
-    const newDropdownList = dropdownFilters.filter((e) => e !== column);
-    setDropdownFilters(newDropdownList);
-    setFilterResult((prev) => ([...prev, {
-      coluna,
-      compara,
-      valor,
-    }]));
-    const list = dataFiltred.map((i) => i);
-    setDataFiltred(list);
-  };
-
-  const handleSetFilterValue = () => {
-    addFilterResult(column, comparison, number);
-    HandleSetFilter(column, comparison, number);
-  };
   return (
     <form>
       <section>
@@ -54,7 +34,7 @@ function InpuFilter() {
             data-testid="column-filter"
             onChange={ ({ target }) => setColumn(target.value) }
           >
-            { dropdownFilters?.map((item) => (
+            { copydropdownList?.map((item) => (
               <option key={ item } value={ item }>{item}</option>
             )) }
           </select>
@@ -84,7 +64,7 @@ function InpuFilter() {
         <button
           data-testid="button-filter"
           type="button"
-          onClick={ handleSetFilterValue }
+          onClick={ adicionarFiltro }
         >
           Filtrar
         </button>

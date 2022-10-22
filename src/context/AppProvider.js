@@ -6,92 +6,101 @@ import fetchApiPlanets from '../services/serviceApi';
 
 function AppProvider({ children }) {
   const [data, setData] = useState([]);
-  const [dataFiltred, setDataFiltred] = useState([]);
+  const [copyData, setCopyData] = useState([]);
   const [inputName, setInputName] = useState('');
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [number, setNumber] = useState(0);
-  const [filterResult, setFilterResult] = useState([]);
+  const [filtersList, setFiltersList] = useState([]);
   const [titleColumns] = useState([
     'Name', 'Rotation Period', 'Orbital Period',
     'Diameter', 'Climate', 'Gravity', 'Terrain',
     'Surface Water', 'Population', 'Films', 'Created',
     'Edited', 'Url']);
-  const [dropdownOrigin] = useState(['population', 'orbital_period',
+  const [dropdownList] = useState(['population', 'orbital_period',
     'diameter', 'rotation_period', 'surface_water']);
-  const [dropdownFilters, setDropdownFilters] = useState(['population', 'orbital_period',
-    'diameter', 'rotation_period', 'surface_water']);
-  console.log(dataFiltred);
+  const [copydropdownList, setCopyDropDownList] = useState(['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+  // console.log(copyData);
+  console.log(data);
+
   useEffect(() => {
     (async () => {
       const result = await fetchApiPlanets();
       const newResult = result.filter((e) => e !== e.residents);
       setData(newResult);
-      setDataFiltred(newResult);
+      setCopyData(newResult);
     })();
   }, []);
 
-  function HandleSetFilter(col, com, num) {
+  function FilterItens(col, com, num) {
     if (com.includes('maior que')) {
-      const fil1 = dataFiltred.filter((e) => Number(e[col]) > Number(num));
-      setDataFiltred(fil1);
+      const fil1 = copyData.filter((e) => Number(e[col]) > Number(num));
+      setCopyData(fil1);
     } else if (com.includes('menor que')) {
-      const fil2 = dataFiltred.filter((e) => Number(e[col]) < Number(num));
-      setDataFiltred(fil2);
+      const fil2 = copyData.filter((e) => Number(e[col]) < Number(num));
+      setCopyData(fil2);
     } else if (com.includes('igual a')) {
-      const fil3 = dataFiltred.filter((e) => Number(e[col]) === Number(num));
-      setDataFiltred(fil3);
+      const fil3 = copyData.filter((e) => Number(e[col]) === Number(num));
+      setCopyData(fil3);
     }
   }
 
-  function ResetList(col) {
-    setDataFiltred(data);
-    const updateList = filterResult.filter((item) => (item.coluna !== col));
-    setFilterResult(updateList);
-    const dropItem = dropdownOrigin.filter((item) => item === col);
-    setDropdownFilters((prev) => [...prev, ...dropItem]);
-    console.log(filterResult);
-    filterResult.map((a) => () => {
-      if (a.compara.includes('maior que')) {
-        const fil1 = dataFiltred.filter((e) => Number(e[a.coluna]) > Number(a.valor));
-        setDataFiltred(fil1);
-      } else if (a.compara.includes('menor que')) {
-        const fil2 = dataFiltred.filter((e) => Number(e[a.coluna]) < Number(a.valor));
-        setDataFiltred(fil2);
-      } else if (a.compara.includes('igual a')) {
-        const fil3 = dataFiltred.filter((e) => Number(e[a.coluna]) === Number(a.valor));
-        setDataFiltred(fil3);
-      }
-    });
+  function removefilterAndAddDropdown(col) {
+    const atualizaFiltro = filtersList.filter((item) => (item.coluna !== col));
+    setFiltersList(atualizaFiltro);
+    // acima retiro do array o filtro
+    const atualizaDropDown = dropdownList.filter((item) => item === col);
+    setCopyDropDownList((prev) => [...prev, ...atualizaDropDown]);
+    // acima adiciono filtro dropDown
+    console.log(filtersList);
   }
+
+  const addFilterResult = (coluna, compara, valor) => {
+    const newDropdownList = copydropdownList.filter((e) => e !== column);
+    setCopyDropDownList(newDropdownList);
+    // removendo item do dropdown
+    setFiltersList((prev) => ([...prev, {
+      coluna,
+      compara,
+      valor,
+    }]));
+    // adicionando filtro ao array
+  };
+
+  const adicionarFiltro = () => {
+    addFilterResult(column, comparison, number);
+    FilterItens(column, comparison, number);
+  };
+
+  const deleteFilter = (col) => {
+    const newFilterList = filtersList.filter((i) => i.coluna !== col);
+    setFiltersList(newFilterList);
+    removefilterAndAddDropdown(col);
+  };
 
   const handleInputName = ({ target: { value } }) => {
     setInputName(value);
   };
 
   const contextValue = useMemo(() => ({
-    ResetList,
+    deleteFilter,
     titleColumns,
-    data,
-    setData,
     inputName,
     handleInputName,
-    HandleSetFilter,
     column,
     setColumn,
     comparison,
     setComparison,
     number,
     setNumber,
-    filterResult,
-    setFilterResult,
-    dropdownFilters,
-    setDropdownFilters,
-    dataFiltred,
-    setDataFiltred,
-  }), [data, inputName, HandleSetFilter, column, comparison, number,
-    filterResult, dropdownFilters, titleColumns, dataFiltred,
-    ResetList]);
+    filtersList,
+    copydropdownList,
+    copyData,
+    adicionarFiltro,
+  }), [inputName, column, comparison, number,
+    filtersList, copydropdownList, titleColumns, copyData,
+    removefilterAndAddDropdown]);
   return (
     <AppContext.Provider value={ contextValue }>
       { children }
