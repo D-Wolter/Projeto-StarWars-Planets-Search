@@ -3,7 +3,7 @@ import AppContext from '../context/AppContext';
 
 function Table() {
   const { copyData, inputName, filtersList,
-    titleColumns, deleteFilter } = useContext(AppContext);
+    titleColumns, removefilterAndAddDropdown } = useContext(AppContext);
   return (
     <div>
       <section>
@@ -15,7 +15,7 @@ function Table() {
               <span>Remover o filtro: </span>
               <button
                 type="button"
-                onClick={ () => deleteFilter(fil.coluna) }
+                onClick={ () => removefilterAndAddDropdown(fil.coluna) }
               >
                 X
               </button>

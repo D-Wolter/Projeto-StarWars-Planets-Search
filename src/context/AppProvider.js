@@ -73,18 +73,11 @@ function AppProvider({ children }) {
     FilterItens(column, comparison, number);
   };
 
-  const deleteFilter = (col) => {
-    const newFilterList = filtersList.filter((i) => i.coluna !== col);
-    setFiltersList(newFilterList);
-    removefilterAndAddDropdown(col);
-  };
-
   const handleInputName = ({ target: { value } }) => {
     setInputName(value);
   };
 
   const contextValue = useMemo(() => ({
-    deleteFilter,
     titleColumns,
     inputName,
     handleInputName,
@@ -98,6 +91,7 @@ function AppProvider({ children }) {
     copydropdownList,
     copyData,
     adicionarFiltro,
+    removefilterAndAddDropdown,
   }), [inputName, column, comparison, number,
     filtersList, copydropdownList, titleColumns, copyData,
     removefilterAndAddDropdown]);
