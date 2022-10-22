@@ -34,8 +34,8 @@ function InpuFilter() {
             data-testid="column-filter"
             onChange={ ({ target }) => setColumn(target.value) }
           >
-            { dropdownList?.map((item) => (
-              <option key={ item } value={ item }>{item}</option>
+            { dropdownList?.map((item, index) => (
+              <option key={ index } value={ item }>{item}</option>
             )) }
           </select>
         </label>

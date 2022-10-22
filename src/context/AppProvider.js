@@ -15,8 +15,6 @@ function AppProvider({ children }) {
   const [filtersList, setFiltersList] = useState([]);
   const [dropdownList, setDropdownList] = useState([]);
   const [renderFilter, setRenderFilter] = useState(false);
-  console.log(copyData);
-  console.log(titles);
 
   useEffect(() => {
     setDropdownList(['orbital_period', 'population',
@@ -84,8 +82,7 @@ function AppProvider({ children }) {
     ]);
     setColumn(dropdownList[0]);
     setRenderFilter(true);
-    const newDropdownList = dropdownList?.filter((e) => e !== column);
-    setDropdownList(newDropdownList);
+    setDropdownList(dropdownList?.filter((e) => e !== column));
   }, [dropdownList, number, comparison, column]);
 
   const contextValue = useMemo(() => ({
@@ -116,41 +113,5 @@ function AppProvider({ children }) {
 AppProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
-// const addFilterResult = (coluna, compara, valor) => {
-//   setFiltersList((prev) => ([...prev, {
-//     userColumn: coluna,
-//     userCompare: compara,
-//     userNumber: valor,
-//   }]));
-//   const newDropdownList = copydropdownList.filter((e) => e !== column);
-//   setCopyDropDownList(newDropdownList);
-//   // removendo item do dropdown
-
-//   // adicionando filtro ao array
-// };
-
-// function FilterItens(col, com, num) {
-//   if (com.includes('maior que')) {
-//     const fil1 = copyData.filter((e) => Number(e[col]) > Number(num));
-//     setCopyData(fil1);
-//   } else if (com.includes('menor que')) {
-//     const fil2 = copyData.filter((e) => Number(e[col]) < Number(num));
-//     setCopyData(fil2);
-//   } else if (com.includes('igual a')) {
-//     const fil3 = copyData.filter((e) => Number(e[col]) === Number(num));
-//     setCopyData(fil3);
-//   }
-// }
-
-// function removefilterAndAddDropdown(col) {
-//   const atualizaFiltro = filtersList.filter((item) => (item.userColumn !== col));
-//   setFiltersList(atualizaFiltro);
-//   // acima retiro do array o filtro
-//   const atualizaDropDown = dropdownList.filter((item) => item === col);
-//   setCopyDropDownList((prev) => [...prev, ...atualizaDropDown]);
-//   // acima adiciono filtro dropDown
-//   console.log(filtersList);
-// }
 
 export default AppProvider;
