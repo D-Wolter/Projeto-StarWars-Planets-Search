@@ -3,19 +3,19 @@ import AppContext from '../context/AppContext';
 
 function Table() {
   const { copyData, inputName, filtersList,
-    titleColumns, removefilterAndAddDropdown } = useContext(AppContext);
+    titles, removefilter } = useContext(AppContext);
   return (
     <div>
       <section>
         <h3>filtros Ativos</h3>
         { filtersList.map((fil, index) => (
           <div key={ index }>
-            <h3>{`${fil.coluna} ${fil.compara} ${fil.valor}`}</h3>
+            <h3>{`${fil.userColumn} ${fil.userCompare} ${fil.userNumber}`}</h3>
             <div data-testid="filter">
               <span>Remover o filtro: </span>
               <button
                 type="button"
-                onClick={ () => removefilterAndAddDropdown(fil.coluna) }
+                onClick={ () => removefilter(fil, true) }
               >
                 X
               </button>
@@ -23,18 +23,31 @@ function Table() {
           </div>
         )) }
       </section>
+      <div>
+        { (filtersList.length > 0)
+        && (
+          <button
+            type="button"
+            data-testid="button-remove-filters"
+            onClick={ () => removefilter(null, true) }
+          >
+            Apagar todos filtros
+          </button>
+        ) }
+      </div>
       <table>
         <thead>
           <tr>
-            { titleColumns.map((i) => (
-              <th key={ i }>{i}</th>
-            ))}
+            { titles?.filter((e) => e !== 'residents')
+              .map((i) => (
+                <th key={ i }>{i}</th>
+              ))}
           </tr>
         </thead>
         <tbody>
           {
             copyData.length > 0 && (
-              copyData.filter((item) => item.name
+              copyData?.filter((item) => item.name
                 .toLowerCase().includes(inputName
                   .toLowerCase()))
                 .map((item) => (

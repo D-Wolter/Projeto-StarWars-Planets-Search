@@ -2,12 +2,12 @@ import React, { useContext } from 'react';
 import AppContext from '../context/AppContext';
 
 function InpuFilter() {
-  const { inputName, handleInputName,
+  const { inputName, setInputName,
     column, setColumn,
     comparison, setComparison,
     number, setNumber,
     adicionarFiltro,
-    copydropdownList,
+    dropdownList,
   } = useContext(AppContext);
   return (
     <form>
@@ -20,7 +20,7 @@ function InpuFilter() {
             type="text"
             data-testid="name-filter"
             value={ inputName }
-            onChange={ handleInputName }
+            onChange={ ({ target }) => setInputName(target.value) }
           />
         </label>
       </section>
@@ -34,7 +34,7 @@ function InpuFilter() {
             data-testid="column-filter"
             onChange={ ({ target }) => setColumn(target.value) }
           >
-            { copydropdownList?.map((item) => (
+            { dropdownList?.map((item) => (
               <option key={ item } value={ item }>{item}</option>
             )) }
           </select>
