@@ -15,8 +15,10 @@ function AppProvider({ children }) {
   const [filtersList, setFiltersList] = useState([]);
   const [dropdownList, setDropdownList] = useState([]);
   const [renderFilter, setRenderFilter] = useState(false);
+  const [loading, setLoading] = useState([false]);
 
   useEffect(() => {
+    setLoading(true);
     setDropdownList(['orbital_period', 'population',
       'diameter', 'rotation_period', 'surface_water']);
     (async () => {
@@ -26,6 +28,7 @@ function AppProvider({ children }) {
       setCopyData(newResult);
       const titulos = Object.keys(result[0]);
       setTitles(titulos);
+      setLoading(false);
     })();
   }, []);
 
@@ -86,6 +89,7 @@ function AppProvider({ children }) {
   }, [dropdownList, number, comparison, column]);
 
   const contextValue = useMemo(() => ({
+    loading,
     setInputName,
     titles,
     inputName,
@@ -102,7 +106,7 @@ function AppProvider({ children }) {
     removefilter,
   }), [inputName, column, comparison, number,
     filtersList, dropdownList, titles, copyData,
-    removefilter, adicionarFiltro]);
+    loading, removefilter, adicionarFiltro]);
   return (
     <AppContext.Provider value={ contextValue }>
       { children }
