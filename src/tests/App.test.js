@@ -10,15 +10,19 @@ beforeEach(() => {
       json: async () => Promise.resolve(RESPONSE_MOCK),
     })
   );
-
-  await waitForElementToBeRemoved(() => screen.getByText(/Loading.../i));
 });
 
-describe("Testando Star Wars Planes Api", () => {
-  test("se a tabela esta renderizada", () => {
+describe("Testando - Star Wars Planetas - Api", () => {
+  test("se a tabela dos planetas renderizada", () => {
     render(<App />);
     const tabela = screen.getByRole("table");
     expect(tabela).toBeInTheDocument();
   });
+    test("se renderiza tatooine", async () => {
+    const { debug } = render(<App />);
+    const tatooine = await screen.findByText(/tatooine/i);
 
+    expect(tatooine).toBeInTheDocument();
+    debug();
+  });
 });
