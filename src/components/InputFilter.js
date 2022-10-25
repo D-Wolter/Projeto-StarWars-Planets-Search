@@ -18,6 +18,7 @@ function InpuFilter() {
             <label htmlFor="filter">
               Search Planet:
               <input
+                placeholder="Digite o Planeta"
                 name="filter"
                 type="text"
                 data-testid="name-filter"
