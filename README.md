@@ -18,7 +18,7 @@ O projeto tem por objetivo a avaliação e prática dos conhecimentos adquiridos
 - [Tecnologias usadas](#tecnologias-usadas)
 - [ANTES DE INICIALIZAR A APLICAÇÃO](#antes-de-inicializar-a-aplicação)
 - [Linter](#linter)
-- [Desmontração de Uso](#desmontração-de-uso)
+
 
 ---
 
